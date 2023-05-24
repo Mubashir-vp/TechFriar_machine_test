@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: IntlPhoneField(
                                   validator: (value) {
                                     if (value == null) {
-                                      return 'Please enter your password';
+                                      return 'Please enter your Phone number';
                                     } else {
                                       return null;
                                     }

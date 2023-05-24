@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
     homeBloc.add(const LoadData());
   }
 
-  bool isLoading = false;
   final _controller = ScrollController();
   int currentIndex = 0;
 
@@ -112,13 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (isTop) {
                     } else {
                       if (state.questionModel.pagination!.nextUrl != null) {
-                        isLoading = true;
-                        setState(() {});
                         homeBloc.add(
                           LoadMoreData(
                             url: state.questionModel.pagination!.nextUrl!,
                           ),
                         );
+                      } else {
+                        null;
                       }
                     }
                   }
@@ -132,22 +131,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is DataLoaded) {
-                return SizedBox(
-                  height: 400,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.separated(
-                    controller: _controller,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: listWidget(
-                          data: state.questionModel.data!,
-                        ),
-                      );
-                    },
-                    separatorBuilder: ((context, index) {
-                      return const SizedBox();
-                    }),
-                    itemCount: state.questionModel.data!.length,
+                return SingleChildScrollView(
+                  child: SizedBox(
+                    height: 300,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.separated(
+                      controller: _controller,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: listWidget(
+                            data: state.questionModel.data!,
+                          ),
+                        );
+                      },
+                      separatorBuilder: ((context, index) {
+                        return const SizedBox();
+                      }),
+                      itemCount: state.questionModel.data!.length,
+                    ),
                   ),
                 );
               } else {
